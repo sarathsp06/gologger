@@ -10,14 +10,14 @@ import (
 
 //Log defines the structure of the log message or the log format
 type Log struct {
-	LogTime     time.Time
-	ProcessName string
-	HostName    string
-	ProcessID   int
-	Level       string
-	FileName    string
-	LineNum     int
-	Msg         string
+	LogTime     time.Time `json:"log_time"`
+	ProcessName string    `json:"process_name"`
+	HostName    string    `json:"host_name"`
+	ProcessID   int       `json:"process_id"`
+	Level       string    `json:"level"`
+	FileName    string    `json:"file_name"`
+	LineNum     int       `json:"line_num"`
+	Msg         string    `json:"msg"`
 }
 
 var logStruct *Log
