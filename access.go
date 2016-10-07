@@ -10,10 +10,15 @@ func GetEchoLoggerConfiguration() (*middleware.LoggerConfig, error) {
 		return nil, err
 	}
 	loggerConf := middleware.LoggerConfig{
-		Format: `{"LogTime":"${time_rfc3339}","RemoteIP":"${remote_ip}",` +
-			`"Method":"${method}","URI":"${uri}","Status":${status}, "Latency":${latency},` +
-			`"LatencyHuman":"${latency_human}","RxBytes":${rx_bytes},` +
-			`"TxBytes":${tx_bytes}}` + "\n",
+		Format: `{"time":"${time_rfc3339}","remote_addr":"${remote_ip}",` +
+                        `"request":"${method} ${uri} HTTP1.1",`+
+                        `"log_message" : [{"key" : "body_bytes_sent", "value" : "${bytes_out}"},`+
+                        `{"key" : "request_count", "value" : "true"},`+
+                        `{"key" : "status", "value" : "${status}"},`+
+                        `{"key" : "request_time", "value" : "${latency}"},`+
+                        `{"key" : "upstream_response_time", "value" : "${latency_human}"}],`+
+			`"request_method":"${method}","uri":"${uri}",` +
+			`"latency_human":"${latency_human}"}` + "\n", 
 		Output: file,
 	}
 	return &loggerConf, nil
