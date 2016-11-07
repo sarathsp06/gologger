@@ -2,6 +2,7 @@ package logger
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"io"
 	"log"
@@ -30,7 +31,8 @@ var LogLevels = map[string]int{MONITOR: 0, ERROR: 1, WARNING: 2, INFO: 3, DEBUG:
 
 //ILogger interface defining the log functions
 type ILogger interface {
-	Log(depth int, level string, message ...interface{})
+	Log(depth int, level string, message string)
+	Flush()
 }
 
 //Logger struct to hold the log level and the Writer
@@ -39,7 +41,7 @@ type Logger struct {
 	Writer   io.Writer
 }
 
-var _logger *Logger
+var _logger ILogger
 
 //Debug Debug log without formatting
 func Debug(message ...interface{}) {
@@ -100,25 +102,40 @@ func (l Logger) Log(depth int, level string, message string) {
 	l.Writer.Write([]byte(logStruct.String() + "\n\r"))
 }
 
-//InitLogger initialise logger object with logWriter and log level
-func InitLogger() error {
-	_logger = &Logger{}
-	logWriter, err := GetLogWriter()
-	if err != nil {
-		log.Println("Failed getting log writer", err.Error())
-		return err
-	}
-	_logger.Writer = logWriter
-	_logger.LogLevel = LogLevels[viper.GetString("log_level")]
-	return nil
-}
-
-//Flush flushes the data logs to log writer
-func Flush() {
-	if writer, ok := _logger.Writer.(*bufio.Writer); ok {
+//Flush flushed the buffer
+func (l Logger) Flush() {
+	if writer, ok := l.Writer.(*bufio.Writer); ok {
 		fmt.Println("Flushing log buffer")
 		if err := writer.Flush(); err != nil {
 			fmt.Fprintln(os.Stderr, "Failed flushing the logs", err.Error())
 		}
 	}
+}
+
+//InitLogger initialise logger object with logWriter and log level
+func InitLogger(logLevel, logDirectory, processName string) error {
+	_log := &Logger{}
+	logWriter, err := GetLogWriter()
+	if err != nil {
+		log.Println("Failed getting log writer", err.Error())
+		return err
+	}
+	_log.Writer = logWriter
+	_log.LogLevel = LogLevels[viper.GetString("log_level")]
+	_logger = _log
+	return nil
+}
+
+//SetLogger sets logger instance to be iused
+func SetLogger(logger ILogger) error {
+	if logger == nil {
+		return errors.New("Nil logger passed")
+	}
+	_logger = logger
+	return nil
+}
+
+//Flush flushes the data logs to log writer
+func Flush() {
+	_logger.Flush()
 }
