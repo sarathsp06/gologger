@@ -4,8 +4,6 @@ import (
 	"encoding/json"
 	"os"
 	"time"
-
-	"github.com/spf13/viper"
 )
 
 //Log defines the structure of the log message or the log format
@@ -21,15 +19,14 @@ type Log struct {
 }
 
 var logStruct *Log
-
 //GetLog returns log struct
 //GetLog returns the log struct with essential common data filled in
 func GetLog() Log {
 	if logStruct == nil {
 		logStruct = new(Log)
-		logStruct.ProcessName = viper.GetString("process_name")
-		logStruct.ProcessID = os.Getpid()
-		logStruct.HostName, _ = os.Hostname()
+		logStruct.ProcessName = processName
+		logStruct.ProcessID = processID 
+		logStruct.HostName = hostName
 	}
 	logStruct.LogTime = time.Now()
 	return *logStruct
@@ -43,4 +40,9 @@ func (log Log) String() string {
 		return log.Msg
 	}
 	return string(marshalledData)
+}
+
+func init(){
+	processID = os.Getpid()
+	hostName,_ = os.Hostname()
 }
