@@ -33,7 +33,7 @@ go get github.com/sarathsp06/gologger
 But if one needs to get a particular version then use 
 
 ```shell
-go get gopkg.in/sarathsp06/gologger.vx #x is the vversio Number
+go get gopkg.in/sarathsp06/gologger.vx #x is the version Number
 ``` 
 
 
