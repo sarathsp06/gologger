@@ -2,6 +2,7 @@ package logger
 
 import (
 	"errors"
+	"io"
 	"fmt"
 	"log"
 )
@@ -53,39 +54,40 @@ func Infof(message ...interface{}) {
 
 //InitLogger initialise logger object with logWriter and log level
 func InitLogger(level, directory, process string) error {
-	_log := &Logger{}
-
 	logLevel = level
 	logDirectory = directory
-	processName = process
+	processName = process 
 
-    
+	_log := &Logger{}
 	logWriter, err := GetLogWriter()
 	if err != nil {
 		log.Println("Failed getting log writer", err.Error())
 		return err
 	}
+
 	_log.Writer = logWriter
 	_log.LogLevel = LogLevels[logLevel]
 	_logger = _log
 	return nil
 }
 
-//SetLogger sets logger instance to be iused
-func SetLogger(logger ILogger) error {
-	if logger == nil {
-		return errors.New("Nil logger passed")
-	}
-	_logger = logger
-	return nil
-}
 
 //GetLogger  returns the current default logger instance
-func GetLogger() (ILogger, error) {
+func GetLogger() (*Logger, error) {
 	if _logger == nil {
 		return nil, errors.New("Nil logger ")
 	}
 	return _logger,nil
+}
+
+//SetLogWriter sets default log writer
+//This works only if the default logger is being used
+func SetLogWriter(writer io.Writer) error {
+	if writer == nil {
+		return errors.New("Nil writer")
+	}
+    logWriter = writer
+	return _logger.SetLogWriter(writer)
 }
 
 //Flush flushes the data logs to log writer

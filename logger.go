@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"errors"
 	"os"
 	"runtime"
 	"strings"
@@ -14,6 +15,8 @@ type Logger struct {
 	LogLevel int
 	Writer   io.Writer
 }
+
+var _logger *Logger 
 
 //Log given the stack depth and level with an array of messages
 //decides if to be Written to logs ans writes to log with FileName and LineNum
@@ -42,4 +45,13 @@ func (l Logger) Flush() {
 			fmt.Fprintln(os.Stderr, "Failed flushing the logs", err.Error())
 		}
 	}
+}
+
+//SetLogWriter sets default  writer
+func (l *Logger) SetLogWriter(writer io.Writer) error {
+	if writer == nil {
+		return errors.New("Nil writer")
+	}
+	l.Writer = writer
+	return nil
 }

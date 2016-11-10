@@ -42,7 +42,6 @@ func (log Log) String() string {
 	return string(marshalledData)
 }
 
-
 func init(){
 	processID = os.Getpid()
 	hostName,_ = os.Hostname()
