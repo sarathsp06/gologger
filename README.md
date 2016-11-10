@@ -3,7 +3,8 @@
 # gologger
 > Logger library for the gophers
 
-      An openionated logging library for golang.Gologger writes logs as json in the following format
+An openionated logging library for golang.Gologger writes logs as json in the following format
+
 ```json
 {
     "time":"2016-11-10T16:11:46.591304719+05:30",
@@ -12,7 +13,7 @@
     "process_id":29422,
     "level":"ERROR",
     "file_name":"/home/sarath/go/src/github.com/sarathsp06/gologger/sample/main.go",
-    "line_num":13,ue
+    "line_num":13,
     "log_msg":"error happened"
 }
 ```  
