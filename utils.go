@@ -6,8 +6,6 @@ import (
 	"io"
 	"log"
 	"os"
-
-	"github.com/spf13/viper"
 )
 
 var logWriter io.Writer
@@ -18,7 +16,7 @@ func GetLogWriter() (io.Writer, error) {
 	if logWriter != nil {
 		return logWriter, nil
 	}
-	file, err := os.OpenFile(fmt.Sprintf("%s/%s.log", viper.GetString("log_directory"), viper.GetString("process_name")), os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	file, err := os.OpenFile(fmt.Sprintf("%s/%s.log", logDirectory, processName), os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		log.Println("Error opening file", err.Error())
 		return nil, err
