@@ -1,6 +1,10 @@
 ![Logo of the project](http://www.davesgames.net/papercraft/png/gallery-logs-01.png)
 
 # gologger
+
+[![Join the chat at https://gitter.im/logger-go/Lobby](https://badges.gitter.im/logger-go/Lobby.svg)](https://gitter.im/logger-go/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+[![Join the chat at https://gitter.im/gologger/Lobby](https://badges.gitter.im/gologger/Lobby.svg)](https://gitter.im/gologger/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 > Logger library for the gophers
 
 An openionated logging library for golang.Gologger writes logs as json in the following format
