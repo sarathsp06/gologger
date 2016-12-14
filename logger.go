@@ -2,9 +2,9 @@ package logger
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"io"
-	"errors"
 	"os"
 	"runtime"
 	"strings"
@@ -16,7 +16,7 @@ type Logger struct {
 	Writer   io.Writer
 }
 
-var _logger *Logger 
+var _logger *Logger
 
 //Log given the stack depth and level with an array of messages
 //decides if to be Written to logs ans writes to log with FileName and LineNum

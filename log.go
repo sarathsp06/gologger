@@ -19,13 +19,14 @@ type Log struct {
 }
 
 var logStruct *Log
+
 //GetLog returns log struct
 //GetLog returns the log struct with essential common data filled in
 func GetLog() Log {
 	if logStruct == nil {
 		logStruct = new(Log)
 		logStruct.ProcessName = processName
-		logStruct.ProcessID = processID 
+		logStruct.ProcessID = processID
 		logStruct.HostName = hostName
 	}
 	logStruct.LogTime = time.Now()
@@ -42,7 +43,7 @@ func (log Log) String() string {
 	return string(marshalledData)
 }
 
-func init(){
+func init() {
 	processID = os.Getpid()
-	hostName,_ = os.Hostname()
+	hostName, _ = os.Hostname()
 }

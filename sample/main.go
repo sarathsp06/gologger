@@ -1,8 +1,8 @@
 package main
 
 import (
-	"os"
 	logger "github.com/sarathsp06/gologger"
+	"os"
 )
 
 func main() {

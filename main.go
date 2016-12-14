@@ -2,14 +2,13 @@ package logger
 
 import (
 	"errors"
-	"io"
 	"fmt"
+	"io"
 	"log"
 )
 
-var logDirectory ,processName, logLevel, hostName  string
+var logDirectory, processName, logLevel, hostName string
 var processID int
-
 
 //Debug Debug log without formatting
 func Debug(message ...interface{}) {
@@ -51,12 +50,11 @@ func Infof(message ...interface{}) {
 	_logger.Log(1, INFO, fmt.Sprintf(message[0].(string), message[1:]...))
 }
 
-
 //InitLogger initialise logger object with logWriter and log level
 func InitLogger(level, directory, process string) error {
 	logLevel = level
 	logDirectory = directory
-	processName = process 
+	processName = process
 
 	_log := &Logger{}
 	logWriter, err := GetLogWriter()
@@ -71,13 +69,12 @@ func InitLogger(level, directory, process string) error {
 	return nil
 }
 
-
 //GetLogger  returns the current default logger instance
 func GetLogger() (*Logger, error) {
 	if _logger == nil {
 		return nil, errors.New("Nil logger ")
 	}
-	return _logger,nil
+	return _logger, nil
 }
 
 //SetLogWriter sets default log writer
@@ -86,7 +83,7 @@ func SetLogWriter(writer io.Writer) error {
 	if writer == nil {
 		return errors.New("Nil writer")
 	}
-    logWriter = writer
+	logWriter = writer
 	return _logger.SetLogWriter(writer)
 }
 
