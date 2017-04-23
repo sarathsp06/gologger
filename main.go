@@ -51,18 +51,19 @@ func Infof(message ...interface{}) {
 }
 
 //InitLogger initialise logger object with logWriter and log level
-func InitLogger(level, directory, process string) error {
-	logLevel = level
-	logDirectory = directory
-	processName = process
-
-	_log := &Logger{}
-	logWriter, err := GetLogWriter()
-	if err != nil {
-		log.Println("Failed getting log writer", err.Error())
-		return err
+func InitLogger(level, directory, process string, humanRedable bool) error {
+	if _logger != nil {
+		return errors.New("Logger initiated already")
 	}
 
+	logLevel, logDirectory, processName = level, directory, process
+	_log := new(Logger)
+	_log.humanRedable = humanRedable
+	logWriter, err := GetLogWriter()
+	if err != nil {
+		log.Println("Failed getting log writer :: ", err.Error())
+		return err
+	}
 	_log.Writer = logWriter
 	_log.LogLevel = LogLevels[logLevel]
 	_logger = _log
@@ -77,8 +78,7 @@ func GetLogger() (*Logger, error) {
 	return _logger, nil
 }
 
-//SetLogWriter sets default log writer
-//This works only if the default logger is being used
+//SetLogWriter sets writer for log
 func SetLogWriter(writer io.Writer) error {
 	if writer == nil {
 		return errors.New("Nil writer")

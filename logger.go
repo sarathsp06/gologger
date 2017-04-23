@@ -12,8 +12,9 @@ import (
 
 //Logger struct to hold the log level and the Writer
 type Logger struct {
-	LogLevel int
-	Writer   io.Writer
+	LogLevel     int
+	humanRedable bool
+	Writer       io.Writer
 }
 
 var _logger *Logger
@@ -26,15 +27,18 @@ func (l Logger) Log(depth int, level string, message string) {
 	if levelPriority, ok := LogLevels[level]; ok && levelPriority > l.LogLevel {
 		return
 	}
-
 	_, file, line, _ := runtime.Caller(depth + 1)
-
 	logStruct := GetLog()
 	logStruct.Msg = message
 	logStruct.FileName = file
 	logStruct.LineNum = line
 	logStruct.Level = level
+	if l.humanRedable {
+		l.Writer.Write([]byte(logStruct.Human() + "\n\r"))
+		return
+	}
 	l.Writer.Write([]byte(logStruct.String() + "\n\r"))
+	return
 }
 
 //Flush flushed the buffer
