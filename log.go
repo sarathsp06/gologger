@@ -45,14 +45,22 @@ func (log Log) String() string {
 	return string(marshalledData)
 }
 
+func logColor(logLevel string) int {
+	if level, ok := LogColors[logLevel]; ok {
+		return level
+	}
+	return WHITE
+}
+
 //Human returns human readable log  string
 ///Here the filename is going to be just to
 func (log Log) Human() string {
 	fileArray := strings.Split(log.FileName, string(os.PathSeparator))
 	fileName := strings.Join(fileArray[len(fileArray)-2:], string(os.PathSeparator))
-	humanFormat := "[%s][%s]\t%s:%d %s:%d\t%s"
+	humanFormat := "[%s]\033[%dm[%s]\t%s:%d %s:%d\t%s\033[0m"
 	logString := fmt.Sprintf(humanFormat,
 		log.LogTime,
+		logColor(log.Level),
 		log.Level,
 		hostName,
 		processID,
