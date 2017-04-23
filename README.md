@@ -9,7 +9,7 @@ An openionated logging library for golang.Gologger writes logs as json in the fo
 
 ```json
 {
-    "time":"2016-11-10T16:11:46.591304719+05:30",
+    "time":"2016-11-10T16:11:46.59Z",
     "process_name":"sample_logger",
     "host_name":"sarath.local",
     "process_id":29422,
@@ -66,7 +66,7 @@ import logger "github.com/sarathsp06/gologger"
 ``` 
 Initialize the  package 
 ```golang
-if err := logger.InitLogger("INFO", ".", "sample_logger"); err != nil {
+if err := logger.InitLogger("INFO", ".", "sample_logger",true); err != nil {
 		panic(err.Error())
 }
 ```
@@ -95,7 +95,7 @@ import (
 )
 
 func main() {
-	if err := logger.InitLogger("INFO", ".", "sample_logger"); err != nil {
+	if err := logger.InitLogger("INFO", ".", "sample_logger",true); err != nil {
 		panic(err.Error())
 	}
 	logger.SetLogWriter(os.Stdout)
