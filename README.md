@@ -1,8 +1,8 @@
 ![Logo of the project](http://www.davesgames.net/papercraft/png/gallery-logs-01.png)
 
 # gologger
-
-[![Join the chat at https://gitter.im/gologger/Lobby](https://badges.gitter.im/gologger/Lobby.svg)](https://gitter.im/gologger/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+![Build Status](https://api.travis-ci.org/sarathsp06/gologger.svg?branch=master)
+[![Join the chat at https://gitter.im/gologger/Lobby](https://badges.gitter.im/gologger/Lobby.svg)](https://gitter.im/gologger/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Go Report Card](https://goreportcard.com/badge/github.com/sarathsp06/gologger)](https://goreportcard.com/report/github.com/sarathsp06/gologger)
 > Logger library for the gophers
 
 An openionated logging library for golang.Gologger writes logs as json in the following format
