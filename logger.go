@@ -13,11 +13,21 @@ import (
 //Logger struct to hold the log level and the Writer
 type Logger struct {
 	LogLevel     int
+	LogType string
 	humanRedable bool
 	Writer       io.Writer
 }
 
 var _logger *Logger
+
+
+//SetLogType sets the log type 
+//This is more like a lable saying the type of log 
+//some possible log types would be application,error,
+func (l *Logger) SetLogType(logType string) *Logger {
+	l.LogType = logType
+	return l
+}
 
 //Log given the stack depth and level with an array of messages
 //decides if to be Written to logs ans writes to log with FileName and LineNum
@@ -33,6 +43,7 @@ func (l Logger) Log(depth int, level string, message string) {
 	logStruct.FileName = file
 	logStruct.LineNum = line
 	logStruct.Level = level
+	logStruct.LogType = l.LogType
 	if l.humanRedable {
 		l.Writer.Write([]byte(logStruct.Human() + "\n\r"))
 		return

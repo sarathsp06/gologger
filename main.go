@@ -91,3 +91,10 @@ func SetLogWriter(writer io.Writer) error {
 func Flush() {
 	_logger.Flush()
 }
+
+//SetLogType sets the log type 
+//This is more like a lable saying the type of log 
+//some possible log types would be application,error,
+func SetLogType(logType string) {
+	_logger.SetLogType(logType)
+}
