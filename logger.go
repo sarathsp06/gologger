@@ -13,6 +13,7 @@ import (
 //Logger struct to hold the log level and the Writer
 type Logger struct {
 	LogLevel     int
+	BufferSizeBytes uint32
 	LogType string
 	humanRedable bool
 	Writer       io.Writer
@@ -62,6 +63,11 @@ func (l Logger) Flush() {
 	}
 }
 
+//SetBufferSize sets buffer size as bytes
+func (l *Logger) SetBufferSize(bufferSizeBytes uint32) error {
+	l.BufferSizeBytes = bufferSizeBytes
+	return nil
+}
 //SetLogWriter sets default  writer
 func (l *Logger) SetLogWriter(writer io.Writer) error {
 	if writer == nil {
@@ -70,3 +76,4 @@ func (l *Logger) SetLogWriter(writer io.Writer) error {
 	l.Writer = writer
 	return nil
 }
+

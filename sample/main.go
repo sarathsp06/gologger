@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	if err := logger.InitLogger("DEBUG", ".", "sample_logger", false); err != nil {
+	if err := logger.InitLogger("DEBUG", ".", "sample_logger", true); err != nil {
 		panic(err.Error())
 	}
         logger.SetLogType("application")

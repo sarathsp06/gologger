@@ -23,5 +23,5 @@ func GetLogWriter() (io.Writer, error) {
 	}
 	logWriter = bufio.NewWriterSize(file, 64)
 	//return file, err
-	return logWriter, err //buffer log with 1kB buffer
+	return logWriter, err
 }

@@ -70,6 +70,17 @@ func InitLogger(level, directory, process string, humanRedable bool) error {
 	return nil
 }
 
+//SetBufferSize sets the buffer size for buffering logs 
+//the logs will be flushed anyways upon stop of the service
+func SetBufferSize(bufferSize uint32) error {
+	if _logger == nil {
+		return errors.New("Nil logger ")
+	}
+	_logger.SetBufferSize(bufferSize)
+	return nil
+}
+
+
 //GetLogger  returns the current default logger instance
 func GetLogger() (*Logger, error) {
 	if _logger == nil {
