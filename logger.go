@@ -12,18 +12,18 @@ import (
 
 //Logger struct to hold the log level and the Writer
 type Logger struct {
-	LogLevel     int
-	BufferSizeBytes uint32
-	LogType string
-	humanRedable bool
-	Writer       io.Writer
+	LogLevel        int
+	BufferSizeBytes int
+	LogType         string
+	humanRedable    bool
+	writer          io.Writer
+	bufferedWriter  io.Writer
 }
 
 var _logger *Logger
 
-
-//SetLogType sets the log type 
-//This is more like a lable saying the type of log 
+//SetLogType sets the log type
+//This is more like a lable saying the type of log
 //some possible log types would be application,error,
 func (l *Logger) SetLogType(logType string) *Logger {
 	l.LogType = logType
@@ -46,16 +46,16 @@ func (l Logger) Log(depth int, level string, message string) {
 	logStruct.Level = level
 	logStruct.LogType = l.LogType
 	if l.humanRedable {
-		l.Writer.Write([]byte(logStruct.Human() + "\n\r"))
+		l.Writer().Write([]byte(logStruct.Human() + "\n\r"))
 		return
 	}
-	l.Writer.Write([]byte(logStruct.String() + "\n\r"))
+	l.Writer().Write([]byte(logStruct.String() + "\n\r"))
 	return
 }
 
 //Flush flushed the buffer
 func (l Logger) Flush() {
-	if writer, ok := l.Writer.(*bufio.Writer); ok {
+	if writer, ok := l.bufferedWriter.(*bufio.Writer); ok {
 		fmt.Println("Flushing log buffer")
 		if err := writer.Flush(); err != nil {
 			fmt.Fprintln(os.Stderr, "Failed flushing the logs", err.Error())
@@ -64,16 +64,27 @@ func (l Logger) Flush() {
 }
 
 //SetBufferSize sets buffer size as bytes
-func (l *Logger) SetBufferSize(bufferSizeBytes uint32) error {
+func (l *Logger) SetBufferSize(bufferSizeBytes int) (err error) {
 	l.BufferSizeBytes = bufferSizeBytes
+	l.bufferedWriter = l.writer
+	if bufferSizeBytes > 0 {
+		l.bufferedWriter = bufio.NewWriterSize(l.writer, bufferSizeBytes)
+	}
 	return nil
 }
+
+//Writer returns writer to be used
+func (l *Logger) Writer() io.Writer {
+	return l.bufferedWriter
+}
+
 //SetLogWriter sets default  writer
 func (l *Logger) SetLogWriter(writer io.Writer) error {
 	if writer == nil {
 		return errors.New("Nil writer")
 	}
-	l.Writer = writer
+	l.Flush()
+	l.writer = writer
+	l.SetBufferSize(l.BufferSizeBytes)
 	return nil
 }
-

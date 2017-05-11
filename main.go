@@ -7,8 +7,10 @@ import (
 	"log"
 )
 
-var logDirectory, processName, logLevel, hostName string
-var processID int
+var (
+	logDirectory, processName, logLevel, hostName string
+	processID                                     int
+)
 
 //Debug Debug log without formatting
 func Debug(message ...interface{}) {
@@ -64,22 +66,21 @@ func InitLogger(level, directory, process string, humanRedable bool) error {
 		log.Println("Failed getting log writer :: ", err.Error())
 		return err
 	}
-	_log.Writer = logWriter
+	_log.SetLogWriter(logWriter)
 	_log.LogLevel = LogLevels[logLevel]
 	_logger = _log
 	return nil
 }
 
-//SetBufferSize sets the buffer size for buffering logs 
+//SetBufferSize sets the buffer size for buffering logs
 //the logs will be flushed anyways upon stop of the service
-func SetBufferSize(bufferSize uint32) error {
+func SetBufferSize(bufferSize int) error {
 	if _logger == nil {
 		return errors.New("Nil logger ")
 	}
 	_logger.SetBufferSize(bufferSize)
 	return nil
 }
-
 
 //GetLogger  returns the current default logger instance
 func GetLogger() (*Logger, error) {
@@ -94,7 +95,6 @@ func SetLogWriter(writer io.Writer) error {
 	if writer == nil {
 		return errors.New("Nil writer")
 	}
-	logWriter = writer
 	return _logger.SetLogWriter(writer)
 }
 
@@ -103,8 +103,8 @@ func Flush() {
 	_logger.Flush()
 }
 
-//SetLogType sets the log type 
-//This is more like a lable saying the type of log 
+//SetLogType sets the log type
+//This is more like a lable saying the type of log
 //some possible log types would be application,error,
 func SetLogType(logType string) {
 	_logger.SetLogType(logType)

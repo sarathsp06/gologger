@@ -28,4 +28,5 @@ var LogColors = map[string]int{MONITOR: MAGENTA,
 	ERROR:   RED,
 	WARNING: GREEN,
 	INFO:    BLUE,
-	DEBUG:   YELLOW}
+	DEBUG:   YELLOW,
+}
