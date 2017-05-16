@@ -5,12 +5,18 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"os"
 )
 
 var (
 	logDirectory, processName, logLevel, hostName string
 	processID                                     int
 )
+
+//Monitor accepts a metric and sends it across
+func Monitor(m *Metric) {
+	fmt.Fprint(os.Stdout, m)
+}
 
 //Debug Debug log without formatting
 func Debug(message ...interface{}) {

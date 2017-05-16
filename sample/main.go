@@ -2,7 +2,7 @@ package main
 
 import (
 	"bitbucket.org/enterpriseproducts/common/go/logger"
-		"os"
+	"os"
 )
 
 func main() {
@@ -10,6 +10,7 @@ func main() {
 		panic(err.Error())
 	}
 	logger.SetLogWriter(os.Stdout)
+	logger.Monitor(logger.NewMetric("test"))
 	logger.SetLogType("application")
 	logger.Error("error happened")
 	logger.Debug("Debug message")
