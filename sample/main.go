@@ -1,8 +1,9 @@
 package main
 
 import (
-logger	"github.com/sarathsp06/gologger" 
 	"os"
+
+	logger "github.com/sarathsp06/gologger"
 )
 
 func main() {
@@ -10,7 +11,7 @@ func main() {
 		panic(err.Error())
 	}
 	logger.SetLogWriter(os.Stdout)
-	logger.Monitor(logger.NewMetric("test"))
+	logger.Monitor(logger.NewMetric("test").Field("Thenga", "Manga"))
 	logger.SetLogType("application")
 	logger.Error("error happened")
 	logger.Debug("Debug message")
