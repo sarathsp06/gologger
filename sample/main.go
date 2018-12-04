@@ -1,12 +1,12 @@
 package main
 
 import (
-	"bitbucket.org/enterpriseproducts/common/go/logger"
+logger	"github.com/sarathsp06/gologger" 
 	"os"
 )
 
 func main() {
-	if err := logger.InitLogger("DEBUG", ".", "sample_logger", true); err != nil {
+	if err := logger.InitLogger(logger.DEBUG, ".", "sample_logger", true); err != nil {
 		panic(err.Error())
 	}
 	logger.SetLogWriter(os.Stdout)

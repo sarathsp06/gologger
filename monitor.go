@@ -41,5 +41,5 @@ func (m Metric) String() string {
 	if err != nil {
 		return fmt.Sprintf(`{name:"%s-error-creating-metricjson",fields:{value:1}}`, processName)
 	}
-	return string(marshalledData)
+	return string(marshalledData)+"\n"
 }

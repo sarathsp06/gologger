@@ -47,6 +47,9 @@ func (log Log) String() string {
 }
 
 func logColor(logLevel string) int {
+	if !IsTerminal() {
+		return WHITE
+	}
 	if level, ok := LogColors[logLevel]; ok {
 		return level
 	}
@@ -63,6 +66,7 @@ func (log Log) Human() string {
 	fileArray := strings.Split(log.FileName, string(os.PathSeparator))
 	fileName := strings.Join(fileArray[len(fileArray)-2:], string(os.PathSeparator))
 	humanFormat := "[%s]\033[%dm[%s]\t\033[%dm%s:%d~%s:%d\t\t\033[%dm%s\033[0m"
+
 	logString := fmt.Sprintf(humanFormat,
 		log.LogTime,
 		logColor(log.Level),

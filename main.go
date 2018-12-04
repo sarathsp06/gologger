@@ -63,8 +63,11 @@ func InitLogger(level, directory, process string, humanRedable bool) error {
 	if _logger != nil {
 		return errors.New("Logger initiated already")
 	}
-
-	logLevel, logDirectory, processName = level, directory, process
+	logDirectory, processName = directory, process
+	logLevel, ok := LogLevels[level]
+	if !ok {
+		return errors.New("Invalid log level")
+	}
 	_log := new(Logger)
 	_log.humanRedable = humanRedable
 	logWriter, err := GetLogWriter()
@@ -73,7 +76,7 @@ func InitLogger(level, directory, process string, humanRedable bool) error {
 		return err
 	}
 	_log.SetLogWriter(logWriter)
-	_log.LogLevel = LogLevels[logLevel]
+	_log.LogLevel = logLevel
 	_logger = _log
 	return nil
 }
