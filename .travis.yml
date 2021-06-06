@@ -2,8 +2,8 @@ sudo: false
 language: go
 install: true
 go: 
-    - 1.11
-    - 1.12
+    - 1.15
+    - 1.16
     - tip
     
 matrix:
